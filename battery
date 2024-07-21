@@ -1,0 +1,5 @@
+a=float(input())
+if (a>=4.00):
+    print ("8.00")
+else:
+    print ("%.2f"%(a*2))
