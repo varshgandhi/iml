@@ -1,0 +1,44 @@
+def execute_transactions(m, k, d, names, owned, prices):
+    transactions = []
+
+    # Iterate over each stock
+    for i in range(k):
+        name = names[i]
+        owned_shares = owned[i]
+        price_trend = prices[i]
+
+        current_price = price_trend[-1]
+        previous_price = price_trend[-2]
+
+        if current_price > previous_price:
+            max_buy = int(m // current_price)
+            if max_buy > 0:
+                transactions.append(f"{name} BUY {max_buy}")
+                m -= max_buy * current_price
+        elif current_price < previous_price and owned_shares > 0:
+            transactions.append(f"{name} SELL {owned_shares}")
+
+    # Output the number of transactions
+    print(len(transactions))
+    # Output each transaction
+    for transaction in transactions:
+        print(transaction)
+
+
+# Input parsing (assuming it reads from stdin or another input source)
+input_data = input().strip().split()
+m, k, d = float(input_data[0]), int(input_data[1]), int(input_data[2])
+
+names = []
+owned = []
+prices = []
+
+# Reading stock data
+for _ in range(k):
+    temp = input().strip().split()
+    names.append(temp[0])
+    owned.append(int(temp[1]))
+    prices.append([float(i) for i in temp[2:7]])  # Assuming price trends are from index 2 to 6
+
+# Call the function with parsed inputs
+execute_transactions(m, k, d, names, owned, prices)
